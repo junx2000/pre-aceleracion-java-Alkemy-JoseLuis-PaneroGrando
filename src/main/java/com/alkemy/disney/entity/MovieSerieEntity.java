@@ -42,7 +42,12 @@ public class MovieSerieEntity {
     )
     private List<CharactersEntity> character = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")
     private GenreEntity genre;
 }
