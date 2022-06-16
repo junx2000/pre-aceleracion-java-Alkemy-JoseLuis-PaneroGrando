@@ -1,10 +1,11 @@
 package com.alkemy.disney.service;
 
 import com.alkemy.disney.Mapper;
-import com.alkemy.disney.dto.CharactersBasicDTO;
-import com.alkemy.disney.dto.CharactersDTO;
+import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entity.CharactersEntity;
+import com.alkemy.disney.entity.MovieSerieEntity;
 import com.alkemy.disney.repository.CharactersRepository;
+import com.alkemy.disney.repository.specification.CharactersSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ public class CharactersServiceImpl implements CharactersService {
     private Mapper mapper;
     @Autowired
     private CharactersRepository charactersRepository;
+    @Autowired
+    private CharactersSpecification charactersSpecification;
 
     @Override
     public CharactersDTO save(CharactersDTO dto) {
@@ -32,14 +35,16 @@ public class CharactersServiceImpl implements CharactersService {
     }
 
     @Override
-    public  List<CharactersBasicDTO> getDetailsByFilters(String name, Integer age, Long movies) {
-
-        //TODO with specifications. return all for now
+    public  List<CharactersBasicDTO> getDetailsByFilters(String name, Integer age, List<Long> movies) {
         List<CharactersDTO> dtos;
         List<CharactersBasicDTO> result = new ArrayList<>();
-        List<CharactersEntity> entities = charactersRepository.findAll();
-        dtos = mapper.charactersEntityList2DTOList(entities, false);
-        for (CharactersDTO dto : dtos) result.add(mapper.characterDTO2BasicDTO(dto));
+        List<CharactersEntity> entities;
+        CharactersFiltersDTO filtersDTO = new CharactersFiltersDTO(name, age, movies);
+        entities = charactersRepository.findAll(charactersSpecification.getByFilters(filtersDTO));
+        dtos = this.mapper.charactersEntityList2DTOList(entities, false);
+        for (CharactersDTO dto : dtos) {
+            result.add(mapper.charactersDTO2BasicDTO(dto));
+        }
         return result;
     }
 

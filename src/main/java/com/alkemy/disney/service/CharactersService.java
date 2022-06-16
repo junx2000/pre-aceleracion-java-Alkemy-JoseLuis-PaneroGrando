@@ -11,7 +11,7 @@ public interface CharactersService {
 
     CharactersDTO getDetailsById(Long id);
 
-    List<CharactersBasicDTO> getDetailsByFilters(String name, Integer age, Long movies);
+    List<CharactersBasicDTO> getDetailsByFilters(String name, Integer age, List<Long> movies);
     CharactersDTO update(Long id, CharactersDTO dto);
 
     void delete(Long id);

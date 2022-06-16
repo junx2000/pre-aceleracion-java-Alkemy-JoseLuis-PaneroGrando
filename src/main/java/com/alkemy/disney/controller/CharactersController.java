@@ -33,7 +33,7 @@ public class CharactersController {
     public ResponseEntity<List<CharactersBasicDTO>> getDetailsByFilters(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer age,
-            @RequestParam(required = false) Long movies
+            @RequestParam(required = false) List<Long> movies
     ) {
         List<CharactersBasicDTO> result = charactersService.getDetailsByFilters(name, age, movies);
         return ResponseEntity.ok().body(result);
