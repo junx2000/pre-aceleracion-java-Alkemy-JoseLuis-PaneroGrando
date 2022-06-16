@@ -48,19 +48,11 @@ public class MovieSerieServiceImpl implements MovieSerieService{
         List<MovieSerieDTO> dtos;
         List<MovieSerieBasicDTO> result = new ArrayList<>();
         List<MovieSerieEntity> entities;
-
-        if(name != null || genre != null) {
-            MovieSeriesFiltersDTO filtersDTO = new MovieSeriesFiltersDTO(name, genre, order);
-            entities = movieSerieRepository.findAll(movieSerieSpecification.getByFilters(filtersDTO));
-            dtos = this.mapper.movieSerieEntityList2DTOList(entities, false);
-            for (MovieSerieDTO dto : dtos) {
-                result.add(mapper.movieSerieDTO2BasicDTO(dto));
-            }
-        }
-        else {
-            entities = movieSerieRepository.findAll();
-            dtos = mapper.movieSerieEntityList2DTOList(entities, false);
-            for (MovieSerieDTO dto : dtos) result.add(mapper.movieSerieDTO2BasicDTO(dto));
+        MovieSeriesFiltersDTO filtersDTO = new MovieSeriesFiltersDTO(name, genre, order);
+        entities = movieSerieRepository.findAll(movieSerieSpecification.getByFilters(filtersDTO));
+        dtos = this.mapper.movieSerieEntityList2DTOList(entities, false);
+        for (MovieSerieDTO dto : dtos) {
+            result.add(mapper.movieSerieDTO2BasicDTO(dto));
         }
         return result;
     }
