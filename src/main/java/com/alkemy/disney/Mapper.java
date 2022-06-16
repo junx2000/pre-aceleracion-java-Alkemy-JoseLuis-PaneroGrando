@@ -44,7 +44,7 @@ public class Mapper {
         return characterDTO;
     }
 
-    public CharactersBasicDTO characterDTO2BasicDTO(CharactersDTO dto) {
+    public CharactersBasicDTO charactersDTO2BasicDTO(CharactersDTO dto) {
         CharactersBasicDTO basicDTO = new CharactersBasicDTO();
         basicDTO.setImage(dto.getImage());
         basicDTO.setName(dto.getName());
