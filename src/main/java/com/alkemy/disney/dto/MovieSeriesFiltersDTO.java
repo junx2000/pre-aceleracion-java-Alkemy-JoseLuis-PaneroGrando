@@ -9,10 +9,10 @@ import java.util.List;
 @Setter
 public class MovieSeriesFiltersDTO {
     private String name;
-    private Long genre;
+    private List<Long> genre;
     private String order;
 
-    public MovieSeriesFiltersDTO(String name, Long genre, String order) {
+    public MovieSeriesFiltersDTO(String name, List<Long> genre, String order) {
         this.name = name;
         this.genre = genre;
         this.order = order;

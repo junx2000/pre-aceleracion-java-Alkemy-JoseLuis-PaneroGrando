@@ -13,7 +13,7 @@ public interface MovieSerieService {
 
     MovieSerieDTO getDetailsById(Long id);
 
-    List<MovieSerieBasicDTO> getDetailsByFilters(String name, Long genre, String order);
+    List<MovieSerieBasicDTO> getDetailsByFilters(String name, List<Long> genre, String order);
 
     MovieSerieDTO update(Long id, MovieSerieDTO dto);
 

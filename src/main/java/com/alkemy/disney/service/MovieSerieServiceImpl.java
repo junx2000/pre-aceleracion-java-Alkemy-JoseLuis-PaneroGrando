@@ -10,7 +10,6 @@ import com.alkemy.disney.repository.GenreRepository;
 import com.alkemy.disney.repository.MovieSerieRepository;
 import com.alkemy.disney.repository.specification.MovieSerieSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,13 +44,24 @@ public class MovieSerieServiceImpl implements MovieSerieService{
     }
 
     @Override
-    public List<MovieSerieBasicDTO> getDetailsByFilters(String name, Long genre, String order) {
-        // TODO with Specifications. return all for now
+    public List<MovieSerieBasicDTO> getDetailsByFilters(String name, List<Long> genre, String order) {
         List<MovieSerieDTO> dtos;
         List<MovieSerieBasicDTO> result = new ArrayList<>();
-        List<MovieSerieEntity> entities = movieSerieRepository.findAll();
-        dtos = mapper.movieSerieEntityList2DTOList(entities, false);
-        for (MovieSerieDTO dto : dtos) result.add(mapper.movieSerieDTO2BasicDTO(dto));
+        List<MovieSerieEntity> entities;
+
+        if(name != null || genre != null) {
+            MovieSeriesFiltersDTO filtersDTO = new MovieSeriesFiltersDTO(name, genre, order);
+            entities = movieSerieRepository.findAll(movieSerieSpecification.getByFilters(filtersDTO));
+            dtos = this.mapper.movieSerieEntityList2DTOList(entities, false);
+            for (MovieSerieDTO dto : dtos) {
+                result.add(mapper.movieSerieDTO2BasicDTO(dto));
+            }
+        }
+        else {
+            entities = movieSerieRepository.findAll();
+            dtos = mapper.movieSerieEntityList2DTOList(entities, false);
+            for (MovieSerieDTO dto : dtos) result.add(mapper.movieSerieDTO2BasicDTO(dto));
+        }
         return result;
     }
 

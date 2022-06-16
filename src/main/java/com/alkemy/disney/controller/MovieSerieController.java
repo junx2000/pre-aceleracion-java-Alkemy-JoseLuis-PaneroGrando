@@ -32,7 +32,7 @@ public class MovieSerieController {
     @GetMapping
     public ResponseEntity<List<MovieSerieBasicDTO>> getDetailsByFilters(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Long genre,
+            @RequestParam(required = false) List<Long> genre,
             @RequestParam(required = false, defaultValue = "ASC") String order
     ) {
         List<MovieSerieBasicDTO> result = movieSerieService.getDetailsByFilters(name, genre, order);
