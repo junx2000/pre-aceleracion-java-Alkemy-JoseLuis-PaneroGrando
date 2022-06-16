@@ -2,7 +2,6 @@ package com.alkemy.disney.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

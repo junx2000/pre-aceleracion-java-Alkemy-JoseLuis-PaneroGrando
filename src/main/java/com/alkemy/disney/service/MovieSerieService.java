@@ -1,9 +1,7 @@
 package com.alkemy.disney.service;
 
-import com.alkemy.disney.dto.CharactersDTO;
 import com.alkemy.disney.dto.MovieSerieBasicDTO;
 import com.alkemy.disney.dto.MovieSerieDTO;
-import com.alkemy.disney.entity.MovieSerieEntity;
 
 import java.util.List;
 

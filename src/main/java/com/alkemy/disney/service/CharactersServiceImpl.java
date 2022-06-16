@@ -3,7 +3,6 @@ package com.alkemy.disney.service;
 import com.alkemy.disney.Mapper;
 import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entity.CharactersEntity;
-import com.alkemy.disney.entity.MovieSerieEntity;
 import com.alkemy.disney.repository.CharactersRepository;
 import com.alkemy.disney.repository.specification.CharactersSpecification;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package com.alkemy.disney.repository.specification;
 
-import com.alkemy.disney.dto.GenreDTO;
 import com.alkemy.disney.dto.MovieSeriesFiltersDTO;
 import com.alkemy.disney.entity.GenreEntity;
 import com.alkemy.disney.entity.MovieSerieEntity;

@@ -72,8 +72,7 @@ public class Mapper {
     /****************/
     public LocalDate string2LocalDate(String strDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(strDate, formatter);
-        return date;
+        return LocalDate.parse(strDate, formatter);
     }
 
     public MovieSerieEntity movieSerieDTO2Entity(MovieSerieDTO dto) {
