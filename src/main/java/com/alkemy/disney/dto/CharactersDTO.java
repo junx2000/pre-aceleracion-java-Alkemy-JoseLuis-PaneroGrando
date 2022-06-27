@@ -16,6 +16,6 @@ public class CharactersDTO {
     private Integer age;
     private Double weight;
     private String story;
-    @NotNull
+
     private List<MovieSerieDTO> moviesSeries;
 }
