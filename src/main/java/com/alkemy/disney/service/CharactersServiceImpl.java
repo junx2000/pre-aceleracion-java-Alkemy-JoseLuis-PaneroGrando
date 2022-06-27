@@ -3,6 +3,7 @@ package com.alkemy.disney.service;
 import com.alkemy.disney.Mapper;
 import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entity.CharactersEntity;
+import com.alkemy.disney.exception.ParamNotFound;
 import com.alkemy.disney.repository.CharactersRepository;
 import com.alkemy.disney.repository.specification.CharactersSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CharactersServiceImpl implements CharactersService {
@@ -29,8 +31,11 @@ public class CharactersServiceImpl implements CharactersService {
 
     @Override
     public CharactersDTO getDetailsById(Long id) {
-        CharactersEntity entity = charactersRepository.getReferenceById(id);
-        return mapper.charactersEntity2DTO(entity, true);
+        Optional<CharactersEntity> entity = charactersRepository.findById(id);
+        if (!entity.isPresent()) {
+            throw new ParamNotFound("characters ID is not valid");
+        }
+        return mapper.charactersEntity2DTO(entity.get(), true);
     }
 
     @Override
@@ -49,7 +54,11 @@ public class CharactersServiceImpl implements CharactersService {
 
     @Override
     public CharactersDTO update(Long id, CharactersDTO dto) {
-        CharactersEntity entity = charactersRepository.getReferenceById(id);
+        Optional<CharactersEntity> entityOptional = charactersRepository.findById(id);
+        if (!entityOptional.isPresent()) {
+            throw new ParamNotFound("character ID is not valid");
+        }
+        CharactersEntity entity = entityOptional.get();
         if (dto.getImage() != null) entity.setImage(dto.getImage());
         if (dto.getName() != null) entity.setName(dto.getName());
         if (dto.getAge() != null) entity.setAge(dto.getAge());
@@ -62,6 +71,10 @@ public class CharactersServiceImpl implements CharactersService {
 
     @Override
     public void delete(Long id) {
+        Optional<CharactersEntity> entityOptional = charactersRepository.findById(id);
+        if (!entityOptional.isPresent()) {
+            throw new ParamNotFound("character ID is not valid");
+        }
         charactersRepository.deleteById(id);
     }
 }

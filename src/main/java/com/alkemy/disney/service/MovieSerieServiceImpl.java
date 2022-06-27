@@ -5,6 +5,8 @@ import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entity.CharactersEntity;
 import com.alkemy.disney.entity.GenreEntity;
 import com.alkemy.disney.entity.MovieSerieEntity;
+import com.alkemy.disney.exception.ParamNotFound;
+import com.alkemy.disney.exception.ValidationException;
 import com.alkemy.disney.repository.CharactersRepository;
 import com.alkemy.disney.repository.GenreRepository;
 import com.alkemy.disney.repository.MovieSerieRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieSerieServiceImpl implements MovieSerieService{
@@ -39,8 +42,11 @@ public class MovieSerieServiceImpl implements MovieSerieService{
 
     @Override
     public MovieSerieDTO getDetailsById(Long id) {
-        MovieSerieEntity entity = movieSerieRepository.getReferenceById(id);
-        return mapper.movieSerieEntity2DTO(entity, true);
+        Optional<MovieSerieEntity> entity = movieSerieRepository.findById(id);
+        if (!entity.isPresent()) {
+            throw new ParamNotFound("movie ID is not valid");
+        }
+        return mapper.movieSerieEntity2DTO(entity.get(), true);
     }
 
     @Override
@@ -59,15 +65,29 @@ public class MovieSerieServiceImpl implements MovieSerieService{
 
     @Override
     public MovieSerieDTO update(Long id, MovieSerieDTO dto) {
-        MovieSerieEntity entity = movieSerieRepository.getReferenceById(id);
+        Optional<MovieSerieEntity> entityOptional = movieSerieRepository.findById(id);
+        if (!entityOptional.isPresent()) {
+            throw new ParamNotFound("movie ID is not valid");
+        }
+        MovieSerieEntity entity = entityOptional.get();
         if (dto.getImage() != null) entity.setImage(dto.getImage());
         if (dto.getTitle() != null) entity.setTitle(dto.getTitle());
         if (dto.getCreationDate() != null) entity.setCreationDate(mapper.string2LocalDate(dto.getCreationDate()));
-        if (dto.getScore() != null) entity.setScore(dto.getScore());
+        if (dto.getScore() != null) {
+            if (1 <= dto.getScore() && dto.getScore() <= 5) {
+                entity.setScore(dto.getScore());
+            }
+            else {
+                throw new ValidationException("score must be between 1 and 5.");
+            }
+        }
         if (dto.getGenre().getId() != null) {
             Long genreId = dto.getGenre().getId();
-            GenreEntity genreEntity = genreRepository.getReferenceById(genreId);
-            entity.setGenre(genreEntity);
+            Optional<GenreEntity> genreEntityOptional = genreRepository.findById(genreId);
+            if (!genreEntityOptional.isPresent()){
+                throw new ValidationException("genre ID is not valid.");
+            }
+            entity.setGenre(genreEntityOptional.get());
         }
         MovieSerieEntity entityUpdated = movieSerieRepository.save(entity);
         return mapper.movieSerieEntity2DTO(entityUpdated, true);
@@ -75,21 +95,40 @@ public class MovieSerieServiceImpl implements MovieSerieService{
 
     @Override
     public void delete(Long id) {
+        Optional<MovieSerieEntity> entityOptional = movieSerieRepository.findById(id);
+        if (!entityOptional.isPresent()) {
+            throw new ParamNotFound("movie ID is not valid");
+        }
         movieSerieRepository.deleteById(id);
     }
 
     @Override
     public void addCharacter(Long movieID, Long characterID){
-        MovieSerieEntity movieSerieEntity = movieSerieRepository.getReferenceById(movieID);
-        CharactersEntity charactersEntity = charactersRepository.getReferenceById(characterID);
-        movieSerieEntity.addCharacter(charactersEntity);
+        Optional<MovieSerieEntity> movieSerieEntityOptional = movieSerieRepository.findById(movieID);
+        if (!movieSerieEntityOptional.isPresent()) {
+            throw new ParamNotFound("movie ID is not valid");
+        }
+        Optional<CharactersEntity> charactersEntityOptional = charactersRepository.findById(characterID);
+        if (!charactersEntityOptional.isPresent()) {
+            throw new ParamNotFound("character ID is not valid");
+        }
+        MovieSerieEntity movieSerieEntity = movieSerieEntityOptional.get();
+        movieSerieEntity.addCharacter(charactersEntityOptional.get());
         movieSerieRepository.save(movieSerieEntity);
     }
 
     @Override
     public void removeCharacter(Long movieID, Long characterID){
-        MovieSerieEntity movieSerieEntity = movieSerieRepository.getReferenceById(movieID);
-        CharactersEntity charactersEntity = charactersRepository.getReferenceById(characterID);
+        Optional<MovieSerieEntity> movieSerieEntityOptional = movieSerieRepository.findById(movieID);
+        if (!movieSerieEntityOptional.isPresent()) {
+            throw new ParamNotFound("movie ID is not valid");
+        }
+        Optional<CharactersEntity> charactersEntityOptional = charactersRepository.findById(characterID);
+        if (!charactersEntityOptional.isPresent()) {
+            throw new ParamNotFound("character ID is not valid");
+        }
+        MovieSerieEntity movieSerieEntity = movieSerieEntityOptional.get();
+        CharactersEntity charactersEntity = charactersEntityOptional.get();
         movieSerieEntity.removeCharacter(charactersEntity);
         movieSerieRepository.save(movieSerieEntity);
     }
