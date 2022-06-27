@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class CharactersController {
     private CharactersService charactersService;
 
     @PostMapping
-    public ResponseEntity<CharactersDTO> save(@RequestBody CharactersDTO dto) {
+    public ResponseEntity<CharactersDTO> save(@Valid @RequestBody CharactersDTO dto) {
         CharactersDTO result = charactersService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
