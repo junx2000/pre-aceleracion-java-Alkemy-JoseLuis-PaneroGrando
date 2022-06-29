@@ -39,13 +39,13 @@ public class UserAuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthenticationResponse> singUp(@Valid @RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<AuthenticationResponse> signUp(@Valid @RequestBody UserDTO userDTO) throws Exception {
         userDetailsService.save(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<AuthenticationResponse> singIn(@RequestBody AuthenticationRequest authRequest) throws Exception {
+    public ResponseEntity<AuthenticationResponse> signIn(@Valid @RequestBody AuthenticationRequest authRequest) throws Exception {
         UserDetails userDetails;
         try {
             Authentication auth = authenticationManager.authenticate(
