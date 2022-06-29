@@ -2,6 +2,7 @@ package com.alkemy.disney.controller;
 
 import com.alkemy.disney.dto.ApiErrorDTO;
 import com.alkemy.disney.exception.ParamNotFound;
+import com.alkemy.disney.exception.UserAlreadyExistAuthException;
 import com.alkemy.disney.exception.ValidationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {ParamNotFound.class})
     protected ResponseEntity<Object> handleParamNotFound(RuntimeException ex, WebRequest request) {
         ApiErrorDTO errorDTO = new ApiErrorDTO(
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.NOT_FOUND,
                 ex.getMessage(),
-                Arrays.asList("Param Not Found")
+                Arrays.asList("ParamNotFound Exception")
         );
         return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
@@ -37,6 +38,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage(),
                 Arrays.asList("Validation Exception")
+        );
+        return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(value = {UserAlreadyExistAuthException.class})
+    protected ResponseEntity<Object> handleUserAlreadyExistAuthExceptionException(RuntimeException ex, WebRequest request) {
+        ApiErrorDTO errorDTO = new ApiErrorDTO(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                Arrays.asList("UserAlreadyExistAuth Exception")
         );
         return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
