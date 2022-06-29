@@ -33,9 +33,14 @@ public class MovieSerieServiceImpl implements MovieSerieService{
 
     @Override
     public MovieSerieDTO save(MovieSerieDTO dto) {
-        GenreEntity genreEntity = genreRepository.getReferenceById(dto.getGenre().getId());
         MovieSerieEntity entity = mapper.movieSerieDTO2Entity(dto);
-        entity.setGenre(genreEntity);
+
+        Long genreId = dto.getGenre().getId();
+        Optional<GenreEntity> genreEntityOptional = genreRepository.findById(genreId);
+        if (!genreEntityOptional.isPresent()){
+            throw new ValidationException("genre ID is not valid.");
+        }
+        entity.setGenre(genreEntityOptional.get());
         MovieSerieEntity entitySaved = movieSerieRepository.save(entity);
         return mapper.movieSerieEntity2DTO(entitySaved, true);
     }
