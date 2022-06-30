@@ -24,7 +24,6 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendWelcomeEmailTo(String to) {
         String apiKey = env.getProperty("SENDGRID_API_KEY");
-        //String apiKey = System.getenv("SENDGRID_API_KEY");
         Email fromEmail = new Email(emailSender);
         Email toEmail = new Email(to);
         Content content = new Content(
