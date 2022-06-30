@@ -7,6 +7,7 @@ import com.alkemy.disney.exception.UserAlreadyExistAuthException;
 import com.alkemy.disney.service.EmailService;
 import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,7 @@ import java.util.Collections;
 public class UserDetailsCustomService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+    @Lazy
     @Autowired
     private PasswordEncoder encoder;
     @Autowired
