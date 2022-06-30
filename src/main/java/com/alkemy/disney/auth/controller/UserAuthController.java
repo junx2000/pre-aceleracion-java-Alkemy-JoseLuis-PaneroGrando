@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.tree.ExpandVetoException;
 import javax.validation.Valid;
 
 @RestController
@@ -40,7 +39,7 @@ public class UserAuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<AuthenticationResponse> signUp(@Valid @RequestBody UserDTO userDTO) throws Exception {
-        userDetailsService.save(userDTO);
+        Boolean response = userDetailsService.save(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

@@ -37,7 +37,7 @@ public class MovieSerieServiceImpl implements MovieSerieService{
 
         Long genreId = dto.getGenre().getId();
         Optional<GenreEntity> genreEntityOptional = genreRepository.findById(genreId);
-        if (!genreEntityOptional.isPresent()){
+        if (genreEntityOptional.isEmpty()){
             throw new ValidationException("genre ID is not valid.");
         }
         entity.setGenre(genreEntityOptional.get());
@@ -48,7 +48,7 @@ public class MovieSerieServiceImpl implements MovieSerieService{
     @Override
     public MovieSerieDTO getDetailsById(Long id) {
         Optional<MovieSerieEntity> entity = movieSerieRepository.findById(id);
-        if (!entity.isPresent()) {
+        if (entity.isEmpty()) {
             throw new ParamNotFound("movie ID is not valid");
         }
         return mapper.movieSerieEntity2DTO(entity.get(), true);
@@ -71,7 +71,7 @@ public class MovieSerieServiceImpl implements MovieSerieService{
     @Override
     public MovieSerieDTO update(Long id, MovieSerieDTO dto) {
         Optional<MovieSerieEntity> entityOptional = movieSerieRepository.findById(id);
-        if (!entityOptional.isPresent()) {
+        if (entityOptional.isEmpty()) {
             throw new ParamNotFound("movie ID is not valid");
         }
         MovieSerieEntity entity = entityOptional.get();
@@ -89,7 +89,7 @@ public class MovieSerieServiceImpl implements MovieSerieService{
         if (dto.getGenre().getId() != null) {
             Long genreId = dto.getGenre().getId();
             Optional<GenreEntity> genreEntityOptional = genreRepository.findById(genreId);
-            if (!genreEntityOptional.isPresent()){
+            if (genreEntityOptional.isEmpty()){
                 throw new ValidationException("genre ID is not valid.");
             }
             entity.setGenre(genreEntityOptional.get());
@@ -101,7 +101,7 @@ public class MovieSerieServiceImpl implements MovieSerieService{
     @Override
     public void delete(Long id) {
         Optional<MovieSerieEntity> entityOptional = movieSerieRepository.findById(id);
-        if (!entityOptional.isPresent()) {
+        if (entityOptional.isEmpty()) {
             throw new ParamNotFound("movie ID is not valid");
         }
         movieSerieRepository.deleteById(id);
@@ -110,11 +110,11 @@ public class MovieSerieServiceImpl implements MovieSerieService{
     @Override
     public void addCharacter(Long movieID, Long characterID){
         Optional<MovieSerieEntity> movieSerieEntityOptional = movieSerieRepository.findById(movieID);
-        if (!movieSerieEntityOptional.isPresent()) {
+        if (movieSerieEntityOptional.isEmpty()) {
             throw new ParamNotFound("movie ID is not valid");
         }
         Optional<CharactersEntity> charactersEntityOptional = charactersRepository.findById(characterID);
-        if (!charactersEntityOptional.isPresent()) {
+        if (charactersEntityOptional.isEmpty()) {
             throw new ParamNotFound("character ID is not valid");
         }
         MovieSerieEntity movieSerieEntity = movieSerieEntityOptional.get();
@@ -125,11 +125,11 @@ public class MovieSerieServiceImpl implements MovieSerieService{
     @Override
     public void removeCharacter(Long movieID, Long characterID){
         Optional<MovieSerieEntity> movieSerieEntityOptional = movieSerieRepository.findById(movieID);
-        if (!movieSerieEntityOptional.isPresent()) {
+        if (movieSerieEntityOptional.isEmpty()) {
             throw new ParamNotFound("movie ID is not valid");
         }
         Optional<CharactersEntity> charactersEntityOptional = charactersRepository.findById(characterID);
-        if (!charactersEntityOptional.isPresent()) {
+        if (charactersEntityOptional.isEmpty()) {
             throw new ParamNotFound("character ID is not valid");
         }
         MovieSerieEntity movieSerieEntity = movieSerieEntityOptional.get();

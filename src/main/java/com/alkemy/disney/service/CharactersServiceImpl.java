@@ -32,7 +32,7 @@ public class CharactersServiceImpl implements CharactersService {
     @Override
     public CharactersDTO getDetailsById(Long id) {
         Optional<CharactersEntity> entity = charactersRepository.findById(id);
-        if (!entity.isPresent()) {
+        if (entity.isEmpty()) {
             throw new ParamNotFound("characters ID is not valid");
         }
         return mapper.charactersEntity2DTO(entity.get(), true);
@@ -55,7 +55,7 @@ public class CharactersServiceImpl implements CharactersService {
     @Override
     public CharactersDTO update(Long id, CharactersDTO dto) {
         Optional<CharactersEntity> entityOptional = charactersRepository.findById(id);
-        if (!entityOptional.isPresent()) {
+        if (entityOptional.isEmpty()) {
             throw new ParamNotFound("character ID is not valid");
         }
         CharactersEntity entity = entityOptional.get();
@@ -72,7 +72,7 @@ public class CharactersServiceImpl implements CharactersService {
     @Override
     public void delete(Long id) {
         Optional<CharactersEntity> entityOptional = charactersRepository.findById(id);
-        if (!entityOptional.isPresent()) {
+        if (entityOptional.isEmpty()) {
             throw new ParamNotFound("character ID is not valid");
         }
         charactersRepository.deleteById(id);

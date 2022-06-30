@@ -18,7 +18,7 @@ import java.io.IOException;
 public class EmailServiceImpl implements EmailService {
     @Autowired
     private Environment env;
-    @Value("${alkemy.icons.email.senders}")
+    @Value("${alkemy.disney.email.senders}")
     private String emailSender;
 
     @Override

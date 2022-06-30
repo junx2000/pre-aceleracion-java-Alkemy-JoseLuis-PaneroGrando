@@ -5,7 +5,6 @@ import com.alkemy.disney.auth.entity.UserEntity;
 import com.alkemy.disney.auth.repository.UserRepository;
 import com.alkemy.disney.exception.UserAlreadyExistAuthException;
 import com.alkemy.disney.service.EmailService;
-import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
