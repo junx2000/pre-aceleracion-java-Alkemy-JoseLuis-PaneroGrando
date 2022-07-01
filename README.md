@@ -1,4 +1,4 @@
 # pre-aceleracion-java-Alkemy
 
-## Postman requests
-https://www.getpostman.com/collections/73f8a615ffd6baf313a5
+## API Documentation
+http://localhost:8080/swagger-ui/index.html
